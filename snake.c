@@ -3,10 +3,18 @@
 #include <conio.h>
 #include <windows.h>
 
-// Variáveis que serão usadas no programa
-int x, y, altura = 20, largura = 20, comidaX, comidaY, pontos, recorde, fimloop;
-int caudaX[100], caudaY[100];
-int chkcauda;
+// Variáveis globais que serão usadas no programa
+// Coordenadas da cobra
+int x, y;
+
+// Área de jogo
+int altura = 20, largura = 20;
+
+// Coordenadas da comida, numero de pontos, valor do recorde e variavel que define o fim do jogo
+comidaX, comidaY, pontos, recorde, fimloop;
+
+// A cauda da cobra e suas coordenadas
+int caudaX[100], caudaY[100], chkcauda;
 
 FILE *arq; 
 
@@ -31,24 +39,29 @@ void tabuleiro() {
             if(i == 0 || i == altura-1) {
                 printf("#");
             }else{
-                if (i == x && k == y) { 
+                // Printa a cobra no meio da tela
+                if (i == y && k == x) { 
                     printf("@");
-                } else if (i == comidaX && k == comidaY) { 
+                // Printa a comida em algum lugar dentro da area do jogo
+                } else if (i == comidaY && k == comidaX) { 
                     printf("*");
                 } else { 
                     int print = 0;
+                    // Percorre e printa a cauda de acordo com a altura e largura do tabuleiro
                     for (int j = 0; j < chkcauda; j++) {
                         if (caudaX[j] == k && caudaY[j] == i) {
                             printf("o");
                             print = 1;
                         }
                     }
+                    // No espaço em que não há o corpo é printado espaço em branco
                     if (!print) printf(" ");
                 }
             }
         }
         printf("#\n");
     }
+    // Printa os pontos, recorde e o nome do jogador que possuí o recorde
     printf("Pontos: %d   Recorde: %d  -  %s\n\n", pontos, recorde, pessoa.nome);
 }
 
@@ -76,6 +89,16 @@ void gameloop(int * tecla) {
     }
     caudaX[0] = x;
     caudaY[0] = y;
+
+
+    // Switch recebe a variavel tecla, e adiciona ou subtrai as coordenadas da cobra de acordo com a tecla
+    if (kbhit()) {
+        switch (getch()) {
+        case 'w':
+            *tecla = 1;
+            break;
+        case 'a':
+            *tecla = 2;
             break;
         case 's':
             *tecla = 3;
@@ -93,27 +116,27 @@ void gameloop(int * tecla) {
 
     switch (*tecla) {
     case 1:
-        x--;
-        break;
-    case 2:
         y--;
         break;
+    case 2:
+        x--;
+        break;
     case 3:
-        x++;
+        y++;
         break;
     case 4:
-        y++;
+        x++;
         break;
     default:
         break;
     }
 
     // Se a cobra ultrapassar os limites do tabuleiro acaba o loop
-    if (x < 1 || x > largura - 2|| y < 0 || y > altura - 1) fimloop = 1;
+    if (x < 0 || x > largura - 1 || y < 1 || y > altura - 2) fimloop = 1;
     
     // Se a cobra encostar em sua cauda acaba o loop
     for (int i = 0; i<chkcauda; i++)
-        if (caudaX[i] == y && caudaY[i] == x) fimloop = 1;
+        if (caudaX[i] == x && caudaY[i] == y) fimloop = 1;
             
     // Se a cobra chegar nas mesmas coordenadas que a comida gerar nova comida
     if (x == comidaX && y == comidaY) {
