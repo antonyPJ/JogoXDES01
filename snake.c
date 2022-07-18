@@ -67,38 +67,15 @@ void comida() {
    
 }
 
-// Função responsável por receber o input do usuário
-void controle(int * tecla) {
-}
-
 // Função responsável por fazer o loop do jogo
 void gameloop(int * tecla) {  
-
-    int posX = caudaX[0];
-    int posY = caudaY[0];
-    int pos2x, pos2y;
-    caudaX[0] = y;
-    caudaY[0] = x;
-
     // Estabelece a cauda e suas coordenadas
-    for (int i = 1; i<chkcauda; i++) {
-        pos2x = caudaX[i];
-        pos2y = caudaY[i];
-        caudaX[i] = posX;
-        caudaY[i] = posY;
-        posX = pos2x;
-        posY = pos2y;
+    for (int i = chkcauda; i>0; i--) {
+        caudaX[i] = caudaX[i-1];
+        caudaY[i] = caudaY[i-1];
     }
-
-
-    // Switch recebe a variavel tecla, e adiciona ou subtrai as coordenadas da cobra de acordo com a tecla
-    if (kbhit()) {
-        switch (getch()) {
-        case 'w':
-            *tecla = 1;
-            break;
-        case 'a':
-            *tecla = 2;
+    caudaX[0] = x;
+    caudaY[0] = y;
             break;
         case 's':
             *tecla = 3;
