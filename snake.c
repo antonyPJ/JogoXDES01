@@ -63,9 +63,6 @@ void tabuleiro() {
     }
     // Printa os pontos, recorde e o nome do jogador que possuí o recorde
     printf("Pontos: %d   Recorde: %d  -  %s\n\n", pontos, recorde, pessoa.nome);
-
-    printf("comidaX: %d\n", comidaX);
-    printf("comidaY: %d", comidaY);
 }
 
 // Função responsável por estabelecer as coordenadas da cobra, e da comida
@@ -79,7 +76,7 @@ void comida() {
 
     // Coordenadas da comida randomizadas
     comidaX = rand() % largura;
-    comidaY = rand() % altura; 
+    comidaY = rand() % (18) + 1;
    
 }
 
@@ -144,7 +141,7 @@ void gameloop(int * tecla) {
     // Se a cobra chegar nas mesmas coordenadas que a comida gerar nova comida
     if (x == comidaX && y == comidaY) {
         comidaX = rand() % largura;
-        comidaY = rand() % (18 + 1 - 1) + 1;;
+        comidaY = rand() % (18) + 1;
         pontos++; 
         chkcauda++;
     }
