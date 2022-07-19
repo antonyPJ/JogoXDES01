@@ -164,7 +164,7 @@ int main() {
         }
         // Se os pontos forem iguais ao recorde será pedido o nome do jogador após o fim do loop, e será estabelecido um novo recorde
         // printando então os pontos e nome do jogador no arquivo recorde.txt
-        if (pontos == recorde) {
+        if (pontos == recorde && pontos  > 0) {
             printf("Digite seu nome: \n");
             scanf("%s", &pessoa.nome);
             arq=fopen("recorde.txt", "w");
